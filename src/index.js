@@ -9,7 +9,11 @@ function deepObjectMerge(...args) {
   return res
   function objectMerge(FirstOBJ, SecondOBJ) {
     for (var key in SecondOBJ) {
-      FirstOBJ[key] = FirstOBJ[key] && FirstOBJ[key].toString() === '[object Object]' ? deepObjectMerge(FirstOBJ[key], SecondOBJ[key]) : (FirstOBJ[key] = SecondOBJ[key])
+      if (FirstOBJ[key] && FirstOBJ[key].toString() === '[object Object]' && SecondOBJ[key].toString() === '[object Object]') {
+        deepObjectMerge(FirstOBJ[key], SecondOBJ[key])
+      } else {
+        FirstOBJ[key] = SecondOBJ[key]
+      }
     }
     return FirstOBJ
   }
