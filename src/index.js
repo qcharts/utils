@@ -59,30 +59,30 @@ function throttle(fn, interval = 16, immediately = false) {
     }, interval)
   }
 }
-// function debounce(fn, delay = 16, immediately = false) {
-//   let timer = null
-//   return function() {
-//     let args = arguments
-//     let context = this
-//     if (timer) {
-//       clearTimeout(timer)
-//       timer = setTimeout(function() {
-//         fn.apply(context, args)
-//       }, delay)
-//     } else {
-//       if (immediately) {
-//         fn.apply(context, args)
-//       }
-//       timer = setTimeout(function() {
-//         fn.apply(context, args)
-//       }, delay)
-//     }
-//   }
-// }
+function debounce(fn, delay = 16, immediately = false) {
+  let timer = null
+  return function() {
+    let args = arguments
+    let context = this
+    if (timer) {
+      clearTimeout(timer)
+      timer = setTimeout(function() {
+        fn.apply(context, args)
+      }, delay)
+    } else {
+      if (immediately) {
+        fn.apply(context, args)
+      }
+      timer = setTimeout(function() {
+        fn.apply(context, args)
+      }, delay)
+    }
+  }
+}
 function getDistancePx(num, distance) {
   if (jsType(num) === 'string' && num.match(/%$/)) {
     return (Number(num.substring(0, num.indexOf('%'))) / 100) * distance
   }
   return num
 }
-export { deepObjectMerge, emptyObject, jsType, throttle, getDistancePx }
+export { deepObjectMerge, emptyObject, jsType, throttle, debounce, getDistancePx }
