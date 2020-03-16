@@ -10,7 +10,11 @@ function deepObjectMerge(...args) {
   function objectMerge(FirstOBJ, SecondOBJ) {
     for (var key in SecondOBJ) {
       if (FirstOBJ[key] && FirstOBJ[key].toString() === '[object Object]' && SecondOBJ[key].toString() === '[object Object]') {
+        //对象处理
         deepObjectMerge(FirstOBJ[key], SecondOBJ[key])
+      } else if (FirstOBJ[key] && jsType(FirstOBJ[key]) === 'array' && jsType(SecondOBJ[key]) === 'array') {
+        //数组处理
+        FirstOBJ[key].splice(0, FirstOBJ[key].length, ...SecondOBJ[key])
       } else {
         FirstOBJ[key] = SecondOBJ[key]
       }
