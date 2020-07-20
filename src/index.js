@@ -9,7 +9,7 @@ function deepObjectMerge(...args) {
   return res
   function objectMerge(FirstOBJ, SecondOBJ) {
     for (var key in SecondOBJ) {
-      if (FirstOBJ[key] && FirstOBJ[key].toString() === '[object Object]' && SecondOBJ[key].toString() === '[object Object]') {
+      if (FirstOBJ[key] && jsType(FirstOBJ[key]) === 'object' && jsType(SecondOBJ[key]) === 'object') {
         //对象处理
         deepObjectMerge(FirstOBJ[key], SecondOBJ[key])
       } else if (FirstOBJ[key] && jsType(FirstOBJ[key]) === 'array' && jsType(SecondOBJ[key]) === 'array') {
@@ -32,12 +32,7 @@ function jsType(value) {
   //判断js数据类型
   const str = typeof value
   if (str === 'object') {
-    return value === null
-      ? null
-      : Object.prototype.toString
-          .call(value)
-          .slice(8, -1)
-          .toLowerCase()
+    return value === null ? null : Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
   }
   return str
 }
@@ -46,7 +41,7 @@ function throttle(fn, interval = 16, immediately = false) {
   //截流函数
   let timer = null
   let firstTime = immediately
-  return function(...args) {
+  return function (...args) {
     if (firstTime) {
       // 第一次加载
       fn.apply(this, args)
@@ -65,19 +60,19 @@ function throttle(fn, interval = 16, immediately = false) {
 }
 function debounce(fn, delay = 16, immediately = false) {
   let timer = null
-  return function() {
+  return function () {
     let args = arguments
     let context = this
     if (timer) {
       clearTimeout(timer)
-      timer = setTimeout(function() {
+      timer = setTimeout(function () {
         fn.apply(context, args)
       }, delay)
     } else {
       if (immediately) {
         fn.apply(context, args)
       }
-      timer = setTimeout(function() {
+      timer = setTimeout(function () {
         fn.apply(context, args)
       }, delay)
     }
